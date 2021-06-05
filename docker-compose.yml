@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 123
+    ports:
+    - 3306:3306
+    volumes:
+      - ./mysql:/var/lib/mysql
+  laravel:
+    tty: true
+    image: docker.io/bitnami/laravel:7
+    environment:
+      - DB_HOST=mysql
+      - DB_USERNAME=user
+      - DB_DATABASE=db
+      - DB_PASSWORD=123
+    depends_on:
+      - mysql
+    ports:
+      - 3000:3000
+    volumes:
+      - ./src:/app
+      - ./php/php.ini:/opt/bitnami/php/conf/php.ini
+      - ./container:/container
+    command: /container/entrypoint.sh
