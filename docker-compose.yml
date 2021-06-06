@@ -12,7 +12,7 @@ services:
     volumes:
       - ./mysql:/var/lib/mysql
   laravel:
-    build: .
+    image: docker.io/bitnami/laravel:7
     environment:
       - DB_HOST=mysql
       - DB_USERNAME=user
@@ -25,3 +25,5 @@ services:
     volumes:
       - ./src:/app
       - ./php/php.ini:/opt/bitnami/php/conf/php.ini
+      - ./container:/container
+    command: /container/entrypoint.sh
